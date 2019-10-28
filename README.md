@@ -25,7 +25,7 @@ This project was developed by:
 - [x] Create my_count function [Click For More Info](https://ruby-doc.org/core-2.6.5/Enumerable.html#method-i-count)
 - [x] Create my_map function [Click For More Info](https://ruby-doc.org/core-2.6.5/Enumerable.html#method-i-map)
 - [x] Create my_inject function [Click For More Info](https://ruby-doc.org/core-2.6.5/Enumerable.html#method-i-inject)
-- [x] Modify my_map function to accept block or proc parmater [Click For More Info]()
+- [x] Modify my_map function to accept block or proc parameter [Click For More Info]()
 
 ## Setup
 
