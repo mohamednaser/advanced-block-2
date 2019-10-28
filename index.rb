@@ -31,6 +31,11 @@ module Enumerable
 
     true
   end
+
+  def my_any
+    my_each{|element| return true unless yield(element) == false}
+    false
+  end
 end
 
 # tests
@@ -50,3 +55,7 @@ end
 # my_all
 # p [1, 2, 3, 4].respond_to?(:my_all) # check response to function name
 # p [1, 2, 3, 4, 5, 6, 7, 8].my_all { |element| element >= 1 } # test my_all function
+
+# my_any
+# p [1, 2, 3, 4].respond_to?(:my_any) # check response to function name
+p [1, 2, 3, 4, 5, 6, 7, 8].my_any { |element| element >= 1 } # test my_any function
