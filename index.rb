@@ -41,6 +41,10 @@ module Enumerable
     my_each{|element| return false if yield(element) == true}
     true
   end
+
+  def my_count 
+    size
+  end
 end
 
 # tests
@@ -68,3 +72,7 @@ end
 # my_none
 # p [1, 2, 3, 4].respond_to?(:my_none) # check response to function name
 # p [1, 2, 3, 4, 5, 6, 7, 8].my_none { |element| element > 6 } # test my_none function
+
+# my_count
+# p [1, 2, 3, 4].respond_to?(:my_count) # check response to function name
+p [1, 2, 3, 4, 5, 6, 7, 8].my_count { |element| element > 6 } # test my_count function
