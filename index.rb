@@ -33,25 +33,43 @@ module Enumerable
   end
 
   def my_any
-    my_each{|element| return true unless yield(element) == false}
+    my_each { |element| return true unless yield(element) == false }
     false
   end
 
   def my_none
-    my_each{|element| return false if yield(element) == true}
+    my_each { |element| return false if yield(element) == true }
     true
   end
 
-  def my_count 
+  def my_count
     size
   end
 
   def my_map
-    new_array = []
+    i = 0
+    array2 = []
+    while i < size
+      array2 << if block_given?
+                  yield(self[i])
+                else
+                  proc.call(self[i])
+                end
+      i += 1
+    end
+    array2
+  end
 
-    my_each{|element| new_array << yield(element)}
+  def my_inject
+    result = 0
+    my_each { |element| result = yield(result, element) }
+    result
+  end
 
-    new_array
+  def multiply_els
+    result = 1
+    my_each { |element| result *= element }
+    result
   end
 end
 
@@ -85,7 +103,19 @@ end
 # p [1, 2, 3, 4].respond_to?(:my_count) # check response to function name
 # p [1, 2, 3, 4, 5, 6, 7, 8].my_count { |element| element > 6 } # test my_count function
 
-
 # my_map
 # p [1, 2, 3, 4].respond_to?(:my_map) # check response to function name
-p [1, 2, 3, 4, 5, 6, 7, 8].my_map { |element| element + 6 } # test my_map function
+# p [1, 2, 3, 4, 5, 6, 7, 8].my_map { |element| element + 6 } # test my_map function
+
+# my_inject
+# p [1, 2, 3, 4].multiply_els # test my_inject function
+
+# p [1, 2, 3, 4].respond_to?(:my_inject) # check response to function name
+# (5..10).inject { |sum, n| sum + n }
+# p [1, 2, 3, 4].my_inject { |sum, _element| sum + _element } # test my_inject function
+
+# my_map function with proc parmater
+sum_proc = proc do |element|
+  element + 6
+end
+p [1, 2, 3, 4, 5, 6, 7, 8].my_map(&sum_proc) # test my_map function
