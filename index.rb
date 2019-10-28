@@ -45,6 +45,14 @@ module Enumerable
   def my_count 
     size
   end
+
+  def my_map
+    new_array = []
+
+    my_each{|element| new_array << yield(element)}
+
+    new_array
+  end
 end
 
 # tests
@@ -75,4 +83,9 @@ end
 
 # my_count
 # p [1, 2, 3, 4].respond_to?(:my_count) # check response to function name
-p [1, 2, 3, 4, 5, 6, 7, 8].my_count { |element| element > 6 } # test my_count function
+# p [1, 2, 3, 4, 5, 6, 7, 8].my_count { |element| element > 6 } # test my_count function
+
+
+# my_map
+# p [1, 2, 3, 4].respond_to?(:my_map) # check response to function name
+p [1, 2, 3, 4, 5, 6, 7, 8].my_map { |element| element + 6 } # test my_map function
