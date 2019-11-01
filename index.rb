@@ -60,10 +60,19 @@ module Enumerable
     array2
   end
 
-  def my_inject
-    result = 0
-    my_each { |element| result = yield(result, element) }
-    result
+  def my_inject(initial_value_or_symbol = nil)
+    if block_given?
+      result = 0
+
+      result = initial_value_or_symbol unless initial_value_or_symbol.nil?
+
+      my_each { |element| result = yield(result, element) }
+
+      result
+    else
+      my_each { |element| element.Method(initial_value_or_symbol) }
+
+    end
   end
 
   def multiply_els
@@ -108,14 +117,13 @@ end
 # p [1, 2, 3, 4, 5, 6, 7, 8].my_map { |element| element + 6 } # test my_map function
 
 # my_inject
-# p [1, 2, 3, 4].multiply_els # test my_inject function
-
 # p [1, 2, 3, 4].respond_to?(:my_inject) # check response to function name
-# (5..10).inject { |sum, n| sum + n }
 # p [1, 2, 3, 4].my_inject { |sum, _element| sum + _element } # test my_inject function
+# p [1, 2, 3, 4].my_inject(8) { |sum, element| sum + element } # test my_inject function with inital value
+# p [1, 2, 3, 4].my_inject(:+) # test my_inject function with symbol
 
 # my_map function with proc parmater
-sum_proc = proc do |element|
-  element + 6
-end
-p [1, 2, 3, 4, 5, 6, 7, 8].my_map(&sum_proc) # test my_map function
+# sum_proc = proc do |element|
+#   element + 6
+# end
+# p [1, 2, 3, 4, 5, 6, 7, 8].my_map(&sum_proc) # test my_map function
