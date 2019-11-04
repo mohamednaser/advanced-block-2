@@ -32,12 +32,27 @@ module Enumerable
     new_array
   end
 
-  def my_all
-    return to_enum :my_each unless block_given?
-
-    my_each { |element| return false unless yield(element) == true }
-
-    true
+  def my_all(param = nil)
+    if block_given?
+      my_each { |element| return false if yield(element) == false }
+      true
+    else
+      if param.nil?
+        my_each { |element| return false unless element }
+        true
+      else
+        if param.is_a? Regexp
+          my_each { |element| return false if element.to_s.match(param).nil? }
+          true
+        elsif param.is_a? Class
+          my_each { |element| return false if element.class != param }
+          true
+        elsif !param.nil?
+          my_each { |element| return false if (element == param) == false }
+          true
+        end
+      end
+    end
   end
 
   def my_any(param = nil)
@@ -139,3 +154,10 @@ module Enumerable
     result
   end
 end
+
+# newArray = [true, nil , true , []]
+# newArray = [1,2,3,4,5]
+# newArray = [3,3,3,3,3,5]
+# newArray = ['asd' , 'asf' , 'adog' , 'aqwes'] 
+
+# p newArray.my_all(3)
