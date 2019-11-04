@@ -52,13 +52,14 @@ module Enumerable
         result = yield(result, element)
       end
 
-    elsif param.is_a? Symbol
-      array_input[1..-1].my_each do |element|
-        result = result.send(param, element)
-      end
+      return result
     end
 
-    result
+    return if param.is_a? Symbol
+
+    array_input[1..-1].my_each do |element|
+      result = result.send(param, element)
+    end
   end
 
   def multiply_els
