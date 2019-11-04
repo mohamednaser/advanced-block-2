@@ -45,9 +45,14 @@ module Enumerable
     false
   end
 
-  def my_none
-    my_each { |element| return false if yield(element) == true }
-    true
+  def my_none(param = nil)
+    if block_given?
+      my_each { |element| return false if yield(element) == true }
+      true
+    else
+      my_each { |element| return false if (element == param) == true }
+      true
+    end
   end
 
   def my_count(param = nil)
@@ -103,3 +108,8 @@ module Enumerable
     result
   end
 end
+
+
+newArray = ["dog", "door", "rod", "blade"]
+newArray[0] = 5 
+p newArray.none(5)
