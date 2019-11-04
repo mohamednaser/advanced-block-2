@@ -9,60 +9,50 @@ module Enumerable
 
     if param.nil?
       my_each { |element| return false unless element }
-      true
+      return true
     end
 
-    if param.is_a? Regexp
-      my_each { |element| return false if element.to_s.match(param).nil? }
-      true
-    end
-
-    if param.is_a? Class
-      my_each { |element| return false if element.class != param }
-      true
-    end
-
-    unless param.nil?
-      my_each { |element| return false if (element == param) == false }
-      true
-    end
+    my_each { |element| return false if check_input_valid_by_critira(element, param) == false }
+    true
   end
 
   def my_any(param = nil)
     if block_given?
       my_each { |element| return true if yield(element) == true }
       false
-    elsif param.nil?
-      my_each { |element| return true if element }
-      false
-    elsif param.is_a? Regexp
-      my_each { |element| return true unless element.to_s.match(param).nil? }
-      false
-    elsif param.is_a? Class
-      my_each { |element| return true if element.class == param }
-      false
-    elsif !param.nil?
-      my_each { |element| return true if (element == param) == true }
-      false
     end
+
+    if param.nil?
+      my_each { |element| return true if element }
+      return false
+    end
+
+    my_each { |element| return true if check_input_valid_by_critira(element, param) }
+    false
   end
 
   def my_none(param = nil)
     if block_given?
       my_each { |element| return false if yield(element) == true }
       true
-    elsif param.nil?
-      my_each { |element| return false if element }
-      true
-    elsif param.is_a? Regexp
-      my_each { |element| return false unless element.to_s.match(param).nil? }
-      true
-    elsif param.is_a? Class
-      my_each { |element| return false if element.class == param }
-      true
-    elsif !param.nil?
-      my_each { |element| return false if (element == param) == true }
-      true
+    end
+
+    if param.nil?
+      my_each { |element| return false unless element }
+      return true
+    end
+
+    my_each { |element| return false if check_input_valid_by_critira(element, param) }
+    true
+  end
+
+  def check_input_valid_by_critira(test_input, test_critira)
+    if test_critira.is_a? Regexp
+      !test_input.to_s.match(test_critira).nil?
+    elsif test_critira.is_a? Class
+      (test_input.class == test_critira)
+    else
+      (test_input == test_critira)
     end
   end
 end
