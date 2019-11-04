@@ -46,15 +46,12 @@ module Enumerable
     result = param.nil? || param.is_a?(Symbol) ? array_input[0] : param # initial result
 
     if block_given?
-      if param
-        array_input.my_each do |element|
-          result = yield(result, element)
-        end
-      else
-        array_input[1..-1].my_each do |element|
-          result = yield(result, element)
-        end
+      starter_pointer = param.nil? ? 1 : 0
+
+      array_input[starter_pointer..-1].my_each do |element|
+        result = yield(result, element)
       end
+
     elsif param.is_a? Symbol
       array_input[1..-1].my_each do |element|
         result = result.send(param, element)
