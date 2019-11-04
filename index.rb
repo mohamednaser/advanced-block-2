@@ -40,9 +40,27 @@ module Enumerable
     true
   end
 
-  def my_any
-    my_each { |element| return true unless yield(element) == false }
-    false
+  def my_any(param = nil)
+    if block_given?
+      my_each { |element| return true if yield(element) == true }
+      false
+    else
+      if param.nil?
+        my_each { |element| return true if element }
+        false
+      else
+        if param.is_a? Regexp
+          my_each { |element| return true unless element.to_s.match(param).nil? }
+          false
+        elsif param.is_a? Class
+          my_each { |element| return true if element.class == param }
+          false
+        elsif !param.nil?
+          my_each { |element| return true if (element == param) == true }
+          false
+        end
+      end
+    end
   end
 
   def my_none(param = nil)
@@ -55,15 +73,12 @@ module Enumerable
         true
       else
         if param.is_a? Regexp
-          p ' is regex '
           my_each { |element| return false unless element.to_s.match(param).nil? }
           true
         elsif param.is_a? Class
-          p ' is object '
           my_each { |element| return false if element.class == param }
           true
         elsif !param.nil?
-          p ' qual nil '
           my_each { |element| return false if (element == param) == true }
           true
         end
@@ -124,10 +139,3 @@ module Enumerable
     result
   end
 end
-
-newArray = %w[dog door rod blade]
-# newArray  = [1,2,3,4,5,6]
-newArray = [false, nil, false]
-# newArray[0] = 5
-
-p newArray.my_none
