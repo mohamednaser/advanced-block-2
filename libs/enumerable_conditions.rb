@@ -38,7 +38,7 @@ module Enumerable
     end
 
     if param.nil?
-      my_each { |element| return false unless element }
+      my_each { |element| return false if element }
       return true
     end
 
