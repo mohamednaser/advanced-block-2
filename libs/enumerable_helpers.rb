@@ -55,10 +55,11 @@ module Enumerable
       return result
     end
 
-    return if param.is_a? Symbol
-
-    array_input[1..-1].my_each do |element|
-      result = result.send(param, element)
+    if param.is_a? Symbol
+      array_input[1..-1].my_each do |element|
+        result = result.send(param, element)
+      end
+      result
     end
   end
 
