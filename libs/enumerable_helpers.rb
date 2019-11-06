@@ -55,12 +55,11 @@ module Enumerable
       return result
     end
 
-    if param.is_a? Symbol
-      array_input[1..-1].my_each do |element|
-        result = result.send(param, element)
-      end
-      result
+    # param is symbol
+    array_input[1..-1].my_each do |element|
+      result = result.send(param, element)
     end
+    result
   end
 
   def multiply_els

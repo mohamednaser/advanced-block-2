@@ -16,14 +16,11 @@ module Enumerable
     true
   end
 
-  def my_any(param = nil)
+  def my_any(param = true, &proc)
     if block_given?
-      my_each { |element| return true if yield(element) == true }
-      false
-    end
+      it_is_proc = !proc.nil?
 
-    if param.nil?
-      my_each { |element| return true if element }
+      my_each { |element| return true if (it_is_proc && proc.call(element)) || (!it_is_proc && yield(element)) }
       return false
     end
 
