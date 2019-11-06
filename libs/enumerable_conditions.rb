@@ -30,8 +30,8 @@ module Enumerable
 
   def my_none(param = nil)
     if block_given?
-      my_each { |element| return false if yield(element) == true }
-      true
+      my_each { |element| return false if yield(element)}
+      return true
     end
 
     if param.nil?
